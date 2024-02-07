@@ -1,69 +1,45 @@
 class MyCounter extends HTMLElement {
-  static get observedAttributes() { 
-    return ['label', 'color']; 
+  static get observedAttributes() {
+    return ["label", "color"];
   }
 
-  count = 0
-  label = 'Count'
-  color = '#DFD'
-  
-  innerText = () => `${this.label} = ${this.count}`
+  count = 0;
+  label = "Count";
+  color = "#DFD";
+
+  innerText = () => `${this.label} = ${this.count}`;
 
   constructor() {
-    super()
+    super();
 
-    const shadow = this.attachShadow({mode: 'closed'})
-    const template = document.createElement('template')
-    template.innerHTML = /* HTML */ `<button>${this.innerText()}</button>`
-    const node = template.content.cloneNode(true)
-    shadow.append(node)
-    
-    this.button = shadow.querySelector('button')
-    this.button.style.backgroundColor = this.color
-    this.button.addEventListener('click', () => {
+    const shadow = this.attachShadow({ mode: "closed" });
+    const template = document.createElement("template");
+    template.innerHTML = /* HTML */ `<button>${this.innerText()}</button>`;
+    const node = template.content.cloneNode(true);
+    shadow.append(node);
+
+    this.button = shadow.querySelector("button");
+    this.button.style.backgroundColor = this.color;
+    this.button.addEventListener("click", () => {
       this.count += 1;
-      this.update()
-      this.dispatchEvent(new CustomEvent('click', {composed: true}))
-    })
+      this.update();
+      this.dispatchEvent(new CustomEvent("click", { composed: true }));
+    });
   }
 
   update() {
-    this.button.innerText = this.innerText()
-    this.button.style.backgroundColor = this.color
+    this.button.innerText = this.innerText();
+    this.button.style.backgroundColor = this.color;
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (this[name] !== oldValue) {
-      console.log(`MyCounter: set attribute "${name}" to: ${newValue}`)
+      console.log(`MyCounter: set attribute "${name}" to: ${newValue}`);
 
-      this[name] = newValue
-      this.update()
+      this[name] = newValue;
+      this.update();
     }
   }
 }
 
-export default MyCounter
-
-// export default function (element) {
-//   window.customElements.upgrade(document.querySelector('my-counter'))
-//   console.log(element)
-//   return element
-// }
-
-// export function setupCounter(element, args) {
-//   const {label, backgroundColor, onClick} = args
-//   let counter = 0
-
-//   const setCounter = (count) => {
-//     counter = count
-//     element.innerHTML = `${label} is ${counter}`
-//   }
-
-//   element.addEventListener('click', () => setCounter(counter + 1))
-
-//   element.style.backgroundColor = backgroundColor
-
-//   setCounter(0)
-
-//   return element
-// }
+export default MyCounter;
