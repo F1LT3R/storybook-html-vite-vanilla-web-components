@@ -1,29 +1,12 @@
 import { withActions } from "@storybook/addon-actions/decorator";
 
+import WebComponentSetup from "./web-component-setup";
 import MyCounter from "../counter.js";
-
-const setup = (ComponentClass, args) => {
-  const uuid = crypto.randomUUID();
-  const componentName = `web-component-${uuid}`;
-
-  window.customElements.define(
-    componentName,
-    class WebComponent extends ComponentClass {}
-  );
-  const component = document.createElement(componentName);
-
-  for (const [prop, val] of Object.entries(args)) {
-    component.setAttribute(prop, val);
-  }
-
-  console.log(componentName);
-  return component;
-};
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 export default {
   title: "Counter Web Component",
-  render: (args) => setup(MyCounter, args),
+  render: (args) => WebComponentSetup(MyCounter, args),
   tags: ["autodocs"],
   parameters: {
     actions: {
@@ -39,7 +22,7 @@ export default {
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = {
-  render: (args) => setup(MyCounter, args),
+  render: (args) => WebComponentSetup(MyCounter, args),
   args: {
     label: "Counter",
   },
